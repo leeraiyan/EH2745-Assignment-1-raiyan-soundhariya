@@ -49,11 +49,17 @@ class PandaPowerWriter:
         return substationName
     
     def getAssociatedBus(self, terminalID):
+        """
+        Returns a string with the ID of a Connectivity Node that corresponds with a particular terminalID
+        """
         nodeID = self.equipment["Terminal"][terminalID]['Terminal.ConnectivityNode']
         return nodeID
 
             
     def getLineMaxCurrent(self, lineID):
+        """
+        Returns the Current Limit of a Line as a float
+        """
         answer = None
         for key, value in self.equipment["CurrentLimit"].items():
             currentLimit = value["CurrentLimit.value"]
@@ -68,8 +74,8 @@ class PandaPowerWriter:
     def initialiseBuses(self, newBusID = None):
         """ 
         Creates the buses
-        Defaults newBusID as None, but in case you pass it a variable,
-        it creates a new bus because of T1 _BE_V2-2 and T1_NL_V2
+        Defaults newBusID as None
+        In case you pass it a variable, it creates a new bus because of T1 _BE_V2-2 and T1_NL_V2
         """
         if newBusID == None:
             counter = 0
@@ -87,7 +93,7 @@ class PandaPowerWriter:
 
     def initialiseLines(self):
         """ 
-        Creates the lines
+        Creates the lines in the PandaPower network
         """
 
         for lineID, lineInfo in self.equipment["ACLineSegment"].items():
@@ -127,7 +133,7 @@ class PandaPowerWriter:
 
     def initialiseSwitches(self):
         """ 
-        Creates the switches
+        Creates the switches in PandaPower network
         """
         for switchID, switchInfo in self.equipment["Breaker"].items():
             terminalID0, terminalID1 = switchInfo['associatedTerminals']
@@ -143,6 +149,9 @@ class PandaPowerWriter:
 
 
     def initialiseTransformer(self):
+        """
+        Creates transformer objects in the PandaPower network
+        """
         for transformerID, transformerInfo in self.equipment["PowerTransformer"].items():
             if len(transformerInfo['associatedTerminals']) == 2:
                 terminalID0, terminalID1 = transformerInfo['associatedTerminals']
@@ -162,6 +171,9 @@ class PandaPowerWriter:
 
     
     def initialiseLoads(self):
+        """
+        Creates load objects in the Pandapower network
+        """
         for loadID, loadInfo in self.equipment["EnergyConsumer"].items():
             terminalID = loadInfo['associatedTerminals'][0]
             atBus = self.busDict[self.getAssociatedBus(terminalID)]
@@ -169,6 +181,9 @@ class PandaPowerWriter:
 
 
     def initialiseStaticGen(self):
+        """
+        Creates a static generator object in the Pandapower network
+        """
         for generatorID, generatorInfo in self.equipment["EnergySource"].items():
             terminalID = generatorInfo['associatedTerminals'][0]
             atBus = self.busDict[self.getAssociatedBus(terminalID)]
@@ -180,6 +195,9 @@ class PandaPowerWriter:
             
 
     def initialiseMachines(self):
+         """
+         Creates generator objects in PandaPower
+         """
          for generatorID, generatorInfo in self.equipment["SynchronousMachine"].items():
             terminalID = generatorInfo['associatedTerminals'][0]
             atBus = self.busDict[self.getAssociatedBus(terminalID)]
@@ -192,6 +210,9 @@ class PandaPowerWriter:
                            origin_id = generatorID)      
 
     def initialiseShunt(self):
+         """
+         Creates linear shunts in PandaPower
+         """
          for shuntID, shuntInfo in self.equipment["LinearShuntCompensator"].items():
             terminalID = shuntInfo['associatedTerminals'][0]
             atBus = self.busDict[self.getAssociatedBus(terminalID)]
@@ -211,6 +232,9 @@ class PandaPowerWriter:
                             origin_id= shuntID)       
 
     def initialiseWard(self):
+         """
+         Creates ward objects in PandaPower
+         """
          for wardID, wardInfo in self.equipment["EquivalentInjection"].items():
             terminalID = wardInfo['associatedTerminals'][0]
             atBus = self.busDict[self.getAssociatedBus(terminalID)]
