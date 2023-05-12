@@ -3,9 +3,9 @@
 A desktop application that converts EQ and SSH XML files from the Common Information Model to a PandaPower network. The results can be viewed in the built-in GUI. 
 ## UI Screenshots
 
-![Main UI](docs/images/Ui.png)
+![Main UI](docs/images/ui.png)
 
-![Results Page](docs/images/compareExample.jpeg)
+![Results Page](docs/images/results.png)
 
 
 ## Features
