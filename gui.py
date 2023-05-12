@@ -15,6 +15,8 @@ ASSETS_PATH = CURRENT_DIR / "assets" / "frame0"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+cef.Initialize()
+
 def create_new_window():
     # Get EQ and SSH file paths from entry fields
     eq_path = eq_entry.get()
@@ -39,11 +41,9 @@ def create_new_window():
             messagebox.showerror("Error", "Could not Create PandaPower Network")
 
         #open window
-        cef.Initialize()
         browser = cef.CreateBrowserSync(url="file:///htmlOutput/network.html",
                                         window_title='Results')
         cef.MessageLoop()
-        cef.Shutdown()
     else:
         # Show an error message if EQ and SSH paths are not provided
         messagebox.showerror("Error", "Please provide EQ and SSH file paths.")
@@ -54,6 +54,12 @@ def browse_file(entry_field):
     # Update the entry field with the selected file path
     entry_field.delete(0, END)
     entry_field.insert(END, file_path)
+
+def on_main_window_close():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        cef.Shutdown()
+        window.destroy()
+    # Shutdown CEF when the main window is closed
 
 window = Tk()
 window.geometry("1195x706")
@@ -155,5 +161,7 @@ ssh_browse_button = Button(
 ssh_browse_button.place(x=840, y=215)
 
 window.resizable(False, False)
+# Register the on_main_window_close function to be called when the main window is closed
+window.protocol("WM_DELETE_WINDOW", on_main_window_close)
 window.mainloop()
 
