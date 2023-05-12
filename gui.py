@@ -18,11 +18,16 @@ def relative_to_assets(path: str) -> Path:
 cef.Initialize()
 
 def create_new_window():
-    # Get EQ and SSH file paths from entry fields
+    """
+    Get EQ and SSH file paths from entry fields
+    Check if EQ and SSH paths are provided
+    Instantiates CIMXMLParser and PandaPowerWriter 
+    Displays Reults in New Window
+    """
+
     eq_path = eq_entry.get()
     ssh_path = ssh_entry.get()
 
-    # Check if EQ and SSH paths are provided
     if eq_path and ssh_path:
 
         try:
@@ -40,7 +45,7 @@ def create_new_window():
         except:
             messagebox.showerror("Error", "Could not Create PandaPower Network")
 
-        #open window
+        #Open window
         browser = cef.CreateBrowserSync(url="file:///htmlOutput/network.html",
                                         window_title='Results')
         cef.MessageLoop()
@@ -49,18 +54,25 @@ def create_new_window():
         messagebox.showerror("Error", "Please provide EQ and SSH file paths.")
 
 def browse_file(entry_field):
-    # Open file dialog to select a file
+    """
+    Open file dialog to select a file
+    Update the entry field with the selected file path
+    """
     file_path = filedialog.askopenfilename(filetypes=[("XML Files", "*.xml")])
-    # Update the entry field with the selected file path
     entry_field.delete(0, END)
     entry_field.insert(END, file_path)
 
 def on_main_window_close():
+    """
+    Closes the main window by displaying a messagebox
+    """
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         cef.Shutdown()
         window.destroy()
-    # Shutdown CEF when the main window is closed
+    
 
+
+### main window function and layout appear here ###
 window = Tk()
 window.geometry("1195x706")
 window.configure(bg="#F2F2F2")
