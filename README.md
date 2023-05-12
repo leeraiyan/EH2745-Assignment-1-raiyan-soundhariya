@@ -25,7 +25,7 @@ Project is created with:
 
 
 ## Installation Instructions
-* Clone this repository
-* Use Python 3.9 to run `pip install -r requirements.txt`
-* Use Python 3.9 to run `pip gui.py`
+1. Clone this repository
+2. Use Python 3.9 to run `pip install -r requirements.txt`
+3. Use Python 3.9 to run `pip gui.py`
 
