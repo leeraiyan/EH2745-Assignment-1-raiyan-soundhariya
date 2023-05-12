@@ -23,3 +23,9 @@ Project is created with:
 * `PandaPowerManager.py`: Contains the class `PandaPowerWriter`
 * `gui.py`: Contains GUI-related information
 
+
+## Installation Instructions
+* Clone this repository
+* Use Python 3.9 to run `pip install -r requirements.txt`
+* Use Python 3.9 to run `pip gui.py`
+
