@@ -22,10 +22,11 @@ class Graph:
 
 class CIM_XML_parser:
     def __init__(self, eqPath, sshPath = None) -> None:
+        """
+        A class that handles all parsing and reading of EQ and SSH files
+        Stores all data as dictionaries
+        """
 
-        
-        
-        #the two files of the network
         eqTree = ET.parse(eqPath)
         self.eqRoot = eqTree.getroot()
         sshTree = ET.parse(sshPath)
@@ -67,6 +68,9 @@ class CIM_XML_parser:
         }
 
     def search_key(self, key):
+        """
+        Returns a string with information regarding a particular ID in the equipment dictionary
+        """
         if key in self.equipment:
             return self.equipment[key]
         else:
@@ -78,16 +82,27 @@ class CIM_XML_parser:
         print("Nothing Related")
 
     def getEquipmentDict(self, equipmentID):
+        """
+        Returns a dictionary object whose key is the ID passed to this function
+        param equipmentID: string that identifies a piece of electrical equipment
+        """
         key = self.getEquipmentType(equipmentID)
         return self.equipment[key][equipmentID]
     
     def getEquipmentType(self, equipmentID):
+        """
+        Returns a string that specifies the type of electrical equipment
+        param equipmentID: string that identifies a piece of electrical equipment
+        """
         try:
             return self.equipmentIDtoType[equipmentID]
         except:
             return None
         
     def associateTerminaltoEquipment(self):
+        """
+        Associates all electrical equipment with the corresponding terminal IDs
+        """
         counter = 0
         for terminal, terminalInfo in self.equipment["Terminal"].items():
             counter += 1
@@ -98,6 +113,9 @@ class CIM_XML_parser:
         return None
 
     def investigate(self, equipmentID):
+        """
+        Helper function for developers to obtain details about connections between electrical equipment
+        """
         dictionary = self.getEquipmentDict(equipmentID)
 
         print(self.getEquipmentType(equipmentID))
@@ -111,6 +129,9 @@ class CIM_XML_parser:
         return None
 
     def runEQ(self):
+        """
+        Parses the EQ file and stores all information in a Dict = {Dict: {Dict: {string}}}} format in self.equipment attribute
+        """
         for node in self.eqRoot:
             #check equipment type
             # logging.info(node.tag.replace("{"+ns['cim']+"}",""))
@@ -145,6 +166,9 @@ class CIM_XML_parser:
                 self.equipment[equipmentType][newKey] = newValue
 
     def runSSH(self):
+        """
+        Updates existing data in self.equipment attribute
+        """
         for node in self.sshRoot:
 
             #check equipment type
@@ -187,7 +211,9 @@ class CIM_XML_parser:
 
 
     def run(self):
-
+        """
+        Overall function that calls private methods within the class
+        """
         self.runEQ()
         self.associateTerminaltoEquipment()
         self.runSSH()
