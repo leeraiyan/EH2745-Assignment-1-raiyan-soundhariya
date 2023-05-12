@@ -14,7 +14,7 @@ A desktop application that converts EQ and SSH XML files from the Common Informa
 ## Installation Instructions
 1. Clone this repository
 2. Use Python 3.9 to run `pip install -r requirements.txt`
-3. Use Python 3.9 to run `python gui.py`(NOTE: Testing shows that Python 3.10 is -not- supported due to dependencies)
+3. Use Python 3.9 to run `python gui.py` (NOTE: Testing shows that Python 3.10 is not supported due to dependencies)
 
 
 ![Main UI](docs/images/ui.png)
