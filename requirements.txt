@@ -1,3 +1,4 @@
 cefpython3==66.1
 pandapower==2.11.1
 cefpython3 == 66.1
+matplotlib==3.7.1
